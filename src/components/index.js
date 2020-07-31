@@ -1,0 +1,1 @@
+export {FilterableProductTable} from './FilterableProductTable'
