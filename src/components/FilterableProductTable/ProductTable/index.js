@@ -1,6 +1,5 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-
 import { ProductCategoryRow as CatRow } from "./ProductCategoryRow"
 import { ProductRow } from "./ProductRow"
 
@@ -10,27 +9,28 @@ import { ProductRow } from "./ProductRow"
 export const ProductTable = ({ products }) => {
   const categorizedProducts = products.reduce((categorizedProds, product) => {
 
-    const { category } = product
+    //const { category } = product
+    //(this is destructing..below can be just category instead of product.category)
 
-    categorizedProds[category] = categorizedProds[category] ? categorizedProds[category].concat(product) : [product]
+    categorizedProds[product.category] = categorizedProds[product.category] ? categorizedProds[product.category].concat(product) : [product]
 
     return categorizedProds
 
-    },
+  },
     {})
-
+// above is adding to the object in the second parameter
 
   const renderProductRows = (prods) =>
     prods.map(({ name, price }, i) => <ProductRow name={name} price={price} key={i} />)
 
-    const renderTable = () => {
-      return Object.keys(categorizedProducts).map((cat, i) => (
-        <Fragment key={i}>
+  const renderTable = () => {
+    return Object.keys(categorizedProducts).map((cat, i) => (
+      <Fragment key={i}>
         <CatRow category={cat} />
         {renderProductRows(categorizedProducts[cat])}
-        </Fragment>
-      ))
-    }
+      </Fragment>
+    ))
+  }
 
 
 
