@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from 'prop-types'
 
-export const SearchBar = ({handler}) => {
+export const FiltersBar = ({handler}) => {
   const handleChange = (event) => {
     handler(event)
   }
@@ -17,6 +17,6 @@ export const SearchBar = ({handler}) => {
 )
 }
 
-SearchBar.propTypes = {
+FiltersBar.propTypes = {
   handler: PropTypes.func.isRequired,
 }
