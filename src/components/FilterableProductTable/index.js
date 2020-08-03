@@ -18,13 +18,14 @@ export class FilterableProductTable extends React.Component {
   }
 
 
+
   render() {
     return (
-      <Fragment>
+      <main className='flex flex--column flex--align-center'>
         <p>FPT</p>
-        <ProductTable />
         <SearchBar />
-      </Fragment>
+        <ProductTable products={this.state.products} />
+      </main>
     )
   }
 }

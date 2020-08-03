@@ -7,3 +7,44 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+
+input {
+  background-color: pink;
+  margin: 0.5rem;
+
+}
+
+input[type='checkbox'] {
+  margin-right: 4px;
+}
+
+input[type='search'] {
+  width: 20%;
+
+}
+
+table,
+tr {
+  text-align: left;
+  margin: 0.25rem auto;
+  width: 40%;
+}
+
+/* Utility Class */
+.flex {
+  display: flex;
+}
+
+.flex-justify-content-center {
+  justify-content: center;
+}
+
+.flex--column {
+  flex-direction: column;
+}
+
+.flex--align-center {
+  align-items: center;
+}
