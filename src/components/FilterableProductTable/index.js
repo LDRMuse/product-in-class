@@ -18,13 +18,23 @@ export class FilterableProductTable extends React.Component {
   }
 
 
+  searchHandler = ({target}) => {
+    this.setState({searchText: target.value})
+  }
+
 
   render() {
+
+    const filteredProducts = this.state.products.filter(({name}) => {
+      return name.startsWith(this.state.searchText.toLowerCase())
+    })
+
+
     return (
       <main className='flex flex--column flex--align-center'>
         <p>FPT</p>
-        <SearchBar />
-        <ProductTable products={this.state.products} />
+        <SearchBar handler={this.searchHandler}/>
+        <ProductTable products={filteredProducts} />
       </main>
     )
   }
