@@ -1,16 +1,37 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import PropTypes from 'prop-types'
 
-// import { ProductCategoryRow } from "./ProductCategoryRow"
+import { ProductCategoryRow as CatRow } from "./ProductCategoryRow"
 import { ProductRow } from "./ProductRow"
 
 // TODO: Map over products and return a product row with name and price for each individual product
 
 
 export const ProductTable = ({ products }) => {
+  const categorizedProducts = products.reduce((categorizedProds, product) => {
 
-  const renderProductRows = () =>
-    products.map(({ name, price }, i) => <ProductRow name={name} price={price} key={i} />)
+    const { category } = product
+
+    categorizedProds[category] = categorizedProds[category] ? categorizedProds[category].concat(product) : [product]
+
+    return categorizedProds
+
+    },
+    {})
+
+
+  const renderProductRows = (prods) =>
+    prods.map(({ name, price }, i) => <ProductRow name={name} price={price} key={i} />)
+
+    const renderTable = () => {
+      return Object.keys(categorizedProducts).map((cat, i) => (
+        <Fragment key={i}>
+        <CatRow category={cat} />
+        {renderProductRows(categorizedProducts[cat])}
+        </Fragment>
+      ))
+    }
+
 
 
   return (
@@ -22,8 +43,7 @@ export const ProductTable = ({ products }) => {
         </tr>
       </thead>
       <tbody>
-        {/*<ProductCategoryRow />*/}
-        {renderProductRows()}
+        {renderTable()}
       </tbody>
     </table>
   )
