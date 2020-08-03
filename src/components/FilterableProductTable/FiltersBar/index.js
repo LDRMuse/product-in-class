@@ -12,6 +12,10 @@ export const FiltersBar = ({handler}) => {
       <input type="checkbox" onChange={handleChange}/>
       In Stock Only
     </label>
+    <label>
+    <input type="number" onChange={handleChange} />
+    Number
+    </label>
   </div>
 
 )
