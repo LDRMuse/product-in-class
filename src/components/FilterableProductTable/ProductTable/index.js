@@ -33,7 +33,6 @@ export const ProductTable = ({ products }) => {
   }
 
 
-
   return (
     <table>
       <thead>

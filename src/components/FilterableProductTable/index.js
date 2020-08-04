@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 
 import { ProductTable } from './ProductTable'
 import { FiltersBar } from './FiltersBar'
@@ -6,28 +6,27 @@ import { FiltersBar } from './FiltersBar'
 import api from 'api'
 
 
-export class FilterableProductTable extends React.Component {
+export const FilterableProductTable = () => {
+  const [inStockOnly, setInStockOnly] = useState(false)
+  const [maxPrice, setMaxPrice] = useState(null),
+  const [products, setProducts] = useState([]),
+  const [searchText, setSearchText] = useState(''),
 
-  state = {
-    maxPrice: '',
-    inStockOnly: false,
-    searchText: '',
-    products: [],
-  }
+
   // componentDidMount = useEffect in hooks
-  async componentDidMount() {
+  const async componentDidMount() {
     this.setState({ products: await api.index() })
   }
 
 
-  filterHandler = ({ target }) => {
+  const filterHandler = ({ target }) => {
     if( target.type === 'checkbox') {
-      this.setState({inStockOnly: target.checked})
+      setState({inStockOnly: target.checked})
     }
     else if (target.type === 'number') {
-      this.setState({ maxPrice: target.value })
+      setState({ maxPrice: target.value })
     } else {
-      this.setState({ searchText: target.value })
+      setState({ searchText: target.value })
     }
   }
 
@@ -37,14 +36,14 @@ export class FilterableProductTable extends React.Component {
     const filteredProducts = this.state.products.filter(({ name }) => {
       return name.toLowerCase().startsWith(this.state.searchText.toLowerCase())
     }).filter(({ stocked }) => {
-      return this.state.inStockOnly ? stocked : true
+      return inStockOnly ? stocked : true
     }).filter(({ price }) => this.state.maxPrice ?
-      Number.parseFloat(price.slice(1)) <= this.state.maxPrice : true)
+      Number.parseFloat(price.slice(1)) <= maxPrice : true)
 
 
     return (
       <main className='flex flex--column flex--align-center'>
-        <FiltersBar handler={this.filterHandler} />
+        <FiltersBar handler={filterHandler} />
         <ProductTable products={filteredProducts} />
       </main>
     )
