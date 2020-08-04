@@ -17,7 +17,9 @@ export const FilterableProductTable = () => {
     (async () => {
       setProducts(await api.index())
     })()
-  }, [])
+  },
+  // passing an array as a second argument prevents useEffect from firing continuously
+  [])
 
 
   const filterHandler = ({ target: { type, checked, value } }) => {
