@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { ProductTable } from './ProductTable'
 import { FiltersBar } from './FiltersBar'
@@ -8,45 +8,44 @@ import api from 'api'
 
 export const FilterableProductTable = () => {
   const [inStockOnly, setInStockOnly] = useState(false)
-  const [maxPrice, setMaxPrice] = useState(null),
-  const [products, setProducts] = useState([]),
-  const [searchText, setSearchText] = useState(''),
+  const [maxPrice, setMaxPrice] = useState(null)
+  const [products, setProducts] = useState([])
+  const [searchText, setSearchText] = useState('')
 
 
-  // componentDidMount = useEffect in hooks
-  const async componentDidMount() {
-    this.setState({ products: await api.index() })
-  }
+  useEffect(() => {
+    (async () => {
+      setProducts(await api.index())
+    })()
+  }, [])
 
 
-  const filterHandler = ({ target }) => {
-    if( target.type === 'checkbox') {
-      setState({inStockOnly: target.checked})
+  const filterHandler = ({ target: { type, checked, value } }) => {
+    switch (type) {
+      case 'checkbox':
+        setInStockOnly(checked)
+        break
+      case 'number':
+        setMaxPrice(value)
+        break
+      default:
+        setSearchText(value)
     }
-    else if (target.type === 'number') {
-      setState({ maxPrice: target.value })
-    } else {
-      setState({ searchText: target.value })
-    }
   }
 
 
-  render() {
-
-    const filteredProducts = this.state.products.filter(({ name }) => {
-      return name.toLowerCase().startsWith(this.state.searchText.toLowerCase())
-    }).filter(({ stocked }) => {
-      return inStockOnly ? stocked : true
-    }).filter(({ price }) => this.state.maxPrice ?
-      Number.parseFloat(price.slice(1)) <= maxPrice : true)
+  const filteredProducts = products.filter(({ name }) => {
+    return name.toLowerCase().startsWith(searchText.toLowerCase())
+  }).filter(({ stocked }) => {
+    return inStockOnly ? stocked : true
+  }).filter(({ price }) => maxPrice ?
+    Number.parseFloat(price.slice(1)) <= maxPrice : true)
 
 
-    return (
-      <main className='flex flex--column flex--align-center'>
-        <FiltersBar handler={filterHandler} />
-        <ProductTable products={filteredProducts} />
-      </main>
-    )
+  return (
+    <main className='flex flex--column flex--align-center'>
+      <FiltersBar handler={filterHandler} />
+      <ProductTable products={filteredProducts} />
+    </main>
+  )
   }
-}
-
