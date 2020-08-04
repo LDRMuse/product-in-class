@@ -21,7 +21,7 @@ export const ProductTable = ({ products }) => {
 // above is adding to the object in the second parameter
 
   const renderProductRows = (prods) =>
-    prods.map(({ name, price }, i) => <ProductRow name={name} price={price} key={i} />)
+    prods.map(({ name, price, stocked }, i) => <ProductRow name={name} price={price} stocked={stocked} key={i} />)
 
   const renderTable = () => {
     return Object.keys(categorizedProducts).map((cat, i) => (
